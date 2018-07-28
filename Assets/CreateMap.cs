@@ -4,21 +4,21 @@ using UnityEngine;
 
 public class NodeItem
 {
-    public int x;
-    public int y;
+    public int x;   //在二维数组中的索引
+    public int y;   //在二维数组中的索引
 
-    public int nStartCost;
-    public int nEndCost;
+    public int nGCost;
+    public int nHCost;
     public int AllCost
     {
-        get { return nStartCost + nEndCost; }
+        get { return nGCost + nHCost; }
     }
 
-    public bool bWall;
+    public bool bWall;  //是否为墙。即阻挡
 
-    public Vector2 vPos;
+    public Vector2 vPos;    //坐标值
 
-    public NodeItem parent;
+    public NodeItem parent; //父节点
 
     public NodeItem(bool isWall, Vector3 pos, int x, int y)
     {

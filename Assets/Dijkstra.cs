@@ -52,7 +52,9 @@ public class Dijkstra : MonoBehaviour {
     {
         public List<Edge> m_ltAllEdge = new List<Edge>();
         public List<Node> m_ltAllNode = new List<Node>();
-
+        /// <summary>
+        /// 
+        /// </summary>
         public Graph()
         {
             Node A = new Node();
@@ -116,6 +118,23 @@ public class Dijkstra : MonoBehaviour {
             public int nIndex;
             
         }
+
+        /// <summary>
+        /// Dijksra算法思路：用的是贪心的策略，列表ltOpen表示所有的节点，用一个数组dis存放起始点到其他点的最短距离。
+        /// 用一个堆栈ltClose来存放已访问过且有最短路径节点。用一个数组used来存放被访问过的点
+        /// 1、初始化dis、used数组。并把起始点索引的dis设置为0；其他的默认是无穷大
+        /// 2、如果ltOpen不为空：
+        ///     把当前节点压进ltClose。把当前节点的used标准设置为true。表示为已经访问过
+        ///     找到与当前节点连接的节点。如果连接节点没有被访问过。则用当前节点计算到连接点的距离temp。
+        ///     如果该距离小于dis存放的距离。则用temp来更新dis数组的值
+        ///     找出与当前节点最短且未被访问的点设置为当前点。重复第二步。
+        ///     如果当前节点所有的连接点都被访问过。则弹出此节点。并用堆栈最上面的节点作为当前节点。重复第二步
+        ///  3、如果ltOpen为空
+        ///     所有节点都遍历过一遍。此时得到的dis即为从起始点出发到各个点的最短路径
+        /// </summary>
+        /// <param name="nStartIndex"></param>
+        /// <param name="nEndIndex"></param>
+        /// <returns></returns>
         public IEnumerator DijkstraFun(int nStartIndex, int nEndIndex)
         {
             Stack<Node> ltClose = new Stack<Node>();

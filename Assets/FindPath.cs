@@ -38,14 +38,14 @@ public class FindPath : MonoBehaviour {
         List<NodeItem> openList = new List<NodeItem>();
         List<NodeItem> closeList = new List<NodeItem>();
         openList.Add(startNode);
-        startNode.nStartCost = 0;
-        startNode.nEndCost = getDistanceNodes(startNode, endNode);
+        startNode.nGCost = 0;
+        startNode.nHCost = getDistanceNodes(startNode, endNode);
         while (openList.Count > 0)
         {
             NodeItem curNode = openList[0];
             for(int i = 1; i < openList.Count; ++i)
             {
-                if(openList[i].AllCost < curNode.AllCost && openList[i].nEndCost < curNode.nEndCost)
+                if(openList[i].AllCost < curNode.AllCost)
                 {
                     curNode = openList[i];
                 }
@@ -65,11 +65,11 @@ public class FindPath : MonoBehaviour {
                 if (_tempNode.bWall || closeList.Contains(_tempNode))
                     continue;
 
-                int newCost = curNode.nStartCost + getDistanceNodes(curNode, _tempNode);
-                if(newCost < _tempNode.nStartCost || !openList.Contains(_tempNode))
+                int newCost = curNode.nGCost + getDistanceNodes(curNode, _tempNode);
+                if(newCost < _tempNode.nGCost || !openList.Contains(_tempNode))
                 {
-                    _tempNode.nStartCost = newCost;
-                    _tempNode.nEndCost = getDistanceNodes(_tempNode, endNode);
+                    _tempNode.nGCost = newCost;
+                    _tempNode.nHCost = getDistanceNodes(_tempNode, endNode);
                     _tempNode.parent = curNode;
                     if(!openList.Contains(_tempNode))
                     {
@@ -83,7 +83,7 @@ public class FindPath : MonoBehaviour {
         return generatePath(startNode, null);
     }
 
-    int getDistanceNodes(NodeItem a, NodeItem b)
+    int getDistanceNodes(NodeItem a, NodeItem b)    //曼哈顿距离获取两个节点之间的距离
     {
         int cntX = Mathf.Abs(a.x - b.x);
         int cntY = Mathf.Abs(a.y - b.y);
