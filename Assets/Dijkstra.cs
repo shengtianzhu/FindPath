@@ -7,11 +7,11 @@ public class Dijkstra : MonoBehaviour {
 
     public class Node
     {
-        public int nIndex;
-        public Vector2 vPos;
-        public List<Node> ltLinkNode = new List<Node>();
-        public string strName;
-        public List<Edge> ltLinkEdge = new List<Edge>();
+        public int nIndex;                                  //点的索引
+        public Vector2 vPos;                                //位置
+        public List<Node> ltLinkNode = new List<Node>();    //连接的节点
+        public string strName;                              //节点名称，这个用于调试和编辑使用
+        public List<Edge> ltLinkEdge = new List<Edge>();    //连接的边
         public Edge AddLink(Node _Node, int nWeight)
         {
             ltLinkNode.Add(_Node);
@@ -31,9 +31,9 @@ public class Dijkstra : MonoBehaviour {
     }
     public class Edge
     {
-        public Node StartNode;
-        public Node EndNode;
-        public int Weight = int.MaxValue;
+        public Node StartNode;              //起始点
+        public Node EndNode;                //终点
+        public int Weight = int.MaxValue;   //边的权重   
         public Edge(Node _StartNode, Node _EndNode, int _Weight)
         {
             StartNode = _StartNode;
@@ -113,9 +113,9 @@ public class Dijkstra : MonoBehaviour {
 
         public class Path
         {
-            public int nW = int.MaxValue;
-            public Path ParentNode = null;
-            public int nIndex;
+            public int nW = int.MaxValue;       //当前的最短路径
+            public Path ParentNode = null;      //当前路径下的父节点
+            public int nIndex;                  //节点索引
             
         }
 
@@ -158,7 +158,6 @@ public class Dijkstra : MonoBehaviour {
 
             while (ltOpen.Count > 0)
             {
-                Debug.Log("aaaaaa " + curNode.strName);
                 ltClose.Push(curNode);
 
                 used[curNode.nIndex] = true;
@@ -188,28 +187,18 @@ public class Dijkstra : MonoBehaviour {
                 }
                 if (aEdge.Weight == int.MaxValue)
                 {
-                    Debug.Log("CurNode = " + curNode.strName);
                     curNode = ltClose.Pop();
                     curNode = ltClose.Pop();
                 }
                 else
                 {
                     curNode = aEdge.EndNode;
-                    Debug.Log("NextNode = " + curNode.strName);
                     ltOpen.Remove(curNode);
                 }
-
-
-                string _strPrint = "";
-                for (int i = 0; i < m_ltAllNode.Count; ++i)
-                {
-                    _strPrint += " dis[" + i + "] = " + dis[i].nW;
-                }
-                Debug.Log(_strPrint);
+                
                 yield return new WaitForSeconds(2);
 
             }
-            Debug.Log("end");
             string strPath = "";
             strPath = nEndIndex.ToString();
             Path _ParentNode = dis[nEndIndex].ParentNode;
